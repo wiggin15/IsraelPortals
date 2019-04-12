@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138260581-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-138260581-1');
+        </script>
+
+        <title>Portal/Gym Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <link rel="icon" type="image/png" href="static/favicon.png">
+        <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://cdn.klokantech.com/maptilerlayer/v1/index.js"></script>
+    </head>
+
+    <body>
+        <div id="loader-bg"></div>
+        <div id="loader"></div>
+        <div id="sidebar-outer">
+            <div id="sidebar-close" onclick="closeNav()">&times;</div>
+            <div id="sidebar-inner"></div>
+        </div>
+        <div id="sidebar-open" onclick="openNav()">« Gym List</div>
+        <div id="map"></div>
+        <script src="static/index.js"></script>
+        <div id="search-boxes" style="display:none">
+            <input id="pac-input" type="text" placeholder="Search Place"><br>
+            <div class="ui-widget"><input id="portal-input" type="text" placeholder="Search Portal"></div>
+        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfWSyYLHqPB0XYknjm1ZBMWkS3MTPc01E&callback=initMap&libraries=places"
+        async defer></script>
+    </body>
+</html>
