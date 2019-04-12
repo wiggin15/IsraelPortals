@@ -1,0 +1,117 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#loader-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+}
+
+#loader {
+    position: fixed;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    z-index: 1000;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#map {
+    position: absolute;
+    height: 100%;
+    left: 25%;
+    width: 75%;
+    transition: 0.5s;
+}
+
+#sidebar-outer {
+    height: 100%;
+    width: 25%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: width 0.5s, visibility 0s linear 0s;
+    z-index: 11;
+    direction: rtl;
+    font-family: Roboto;
+}
+
+#sidebar-inner {
+    direction: ltr;
+    padding: 10px;
+}
+
+#sidebar-close {
+    padding: 10px 10px 0px 0px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+#sidebar-open {
+    position: absolute;
+    top: 75px;
+    left: 10px;
+    z-index: 10;
+    font-size: 16px;
+    cursor: pointer;
+    background: white;
+    padding: 2px;
+}
+
+.sidebar-portal {
+    padding-bottom: 20px;
+}
+
+.sidebar-portal b {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ui-dialog-titlebar {
+    display: none;
+}
+
+.portal-option {
+    cursor: pointer;
+    text-decoration: underline;
+    margin-bottom: 2px;
+}
+
+.portal-option-guid {
+    font-size: 10px;
+    margin-left: 10px;
+}
+
+#pac-input, #portal-input {
+    background-color: #fff;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 0 5px;
+    margin: 5px 10px;
+    text-overflow: ellipsis;
+    width: 250px;
+    height: 20px;
+}
