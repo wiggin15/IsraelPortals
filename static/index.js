@@ -83,6 +83,9 @@
                         }
                         portal_markers.push([guid, name, callback]);
                         portal_names.push($.trim(name));
+                        if (guid == document.location.hash.substring(1)) {
+                            callback();
+                        }
 
                     });
                     var portal_count = portal_names.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
