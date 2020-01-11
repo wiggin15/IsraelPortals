@@ -44,7 +44,8 @@
                 $.getJSON("gyms.json", function(data) { gyms = data; });
                 var sidebar_divs = [];
                 var portal_markers = [];
-                var portal_names = []
+                var portal_names = [];
+                var urlParams = new URLSearchParams(window.location.search);
                 $.getJSON("portals.json", function(data) {
                     $.each(data, function(i, portal) {
                         guid = portal[0];
@@ -52,6 +53,9 @@
                         lng = portal[2] / 1000000.0;
                         img = portal[3];
                         name = portal[4];
+                        first_seen = portal[5];
+                        if (urlParams.has("show_only") && first_seen != urlParams.get("show_only"))
+                            return;
                         is_gym = $.inArray(guid, gyms) != -1;
                         marker = new google.maps.Marker({
                             position: {lat: lat, lng: lng},
