@@ -80,6 +80,11 @@ html, body {
     padding: 2px;
 }
 
+#sidebar-s2 {
+    padding-bottom: 15px;
+    font-weight: bold;
+}
+
 .sidebar-portal {
     padding-bottom: 20px;
 }

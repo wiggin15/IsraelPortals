@@ -152,6 +152,14 @@
                     $(search_boxes).show();
                     $("#loader, #loader-bg").hide();
                 });
+                S2Grid.setupGrid(map);
+                $("#s2grid").change(function() {
+                    if ($(this).is(':checked')) {
+                        S2Grid.showGrid();
+                    } else {
+                        S2Grid.hideGrid();
+                    }
+                });
             }
 
             function openNav() {
