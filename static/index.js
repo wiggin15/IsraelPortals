@@ -57,6 +57,7 @@
                         if (urlParams.has("show_only") && first_seen != urlParams.get("show_only"))
                             return;
                         is_gym = $.inArray(guid, gyms) != -1;
+                        S2PokeGrid.register(lat, lng, is_gym);
                         marker = new google.maps.Marker({
                             position: {lat: lat, lng: lng},
                             map: map,
