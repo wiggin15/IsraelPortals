@@ -5,6 +5,7 @@
                     zoom: 15,
                     mapTypeControl: false,
                     streetViewControl: false,
+                    clickableIcons: false,
                     gestureHandling: 'greedy'
                 });
                 var infowindow = new google.maps.InfoWindow();
