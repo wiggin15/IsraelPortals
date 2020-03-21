@@ -8,6 +8,7 @@ function initMap() {
         mapTypeControl: false,
         streetViewControl: false,
         clickableIcons: false,
+        fullscreenControl: false,
         gestureHandling: 'greedy'
     });
     var infowindow = new google.maps.InfoWindow();
