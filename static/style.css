@@ -120,3 +120,16 @@ html, body {
     width: 250px;
     height: 20px;
 }
+
+input[type=textbox] {
+    border: none;
+    background: transparent;
+    outline-style: none;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+.glyphicon {
+    color: #888;
+    cursor: pointer;
+}

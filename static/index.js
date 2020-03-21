@@ -1,5 +1,7 @@
 var map;
 function initMap() {
+    let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
+
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 32.1166801, lng: 34.8110482},
         zoom: 15,
@@ -68,7 +70,10 @@ function initMap() {
             content += "<b>" + name + "</b> ";
             if (img !== null)
                 content += "<a href=\"" + img + "\" target=\"_blank\"><img src=\"static/pic.svg\" width=12 height=12></a>";
-            content += "<br>" + guid;
+            if (isMobile)
+                content += "<br>" + guid;
+            else
+                content += "<br><input type=\"textbox\" class=\"guid\" style=\"width: 250px\" value=\"" + guid + "\" readonly=\"readonly\" onclick=\"select_guid(event)\"> <i class=\"glyphicon glyphicon-copy\" onclick=\"copy_guid(event)\"></i>";
             content += "<br><a href=\"geo:" + lat + "," + lng + "\">" + lat + ", " + lng + "</a>";
             content += "</span>";
 
@@ -178,4 +183,16 @@ function closeNav() {
     document.getElementById("map").style.width = "100%";
     document.getElementById("sidebar-outer").style.visibility = "hidden";
     document.getElementById("sidebar-outer").style.transition = "width 0.5s, visibility 0.5s";
+}
+
+function select_guid(event) {
+    $(event.target).focus().select();
+}
+
+function copy_guid(event) {
+    event.stopPropagation();
+    $(event.target).parent().find('.guid').select();
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();
+    return false;
 }
