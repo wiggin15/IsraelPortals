@@ -69,7 +69,7 @@
                         if (img !== null)
                             content += "<a href=\"" + img + "\" target=\"_blank\"><img src=\"static/pic.svg\" width=12 height=12></a>"
                         content += "<br>" + guid
-                        content += `<br>${lat}, ${lng}`
+                        content += "<br><a href=\"geo:" + lat + "," + lng + "\">" + lat + ", " + lng + "</a>";
                         content += "</span>";
 
                         var callback = (function(marker, content, infowindow) {
