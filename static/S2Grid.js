@@ -1,48 +1,15 @@
 const S2Grid = {};
 
 S2Grid.polys = [];
-S2Grid.enabled = true;
+S2Grid.enabled = false;
 
 const gymCellLevel = 14; // the cell level which is considered when counting POIs to determine # of gyms
 const poiCellLevel = 17; // the cell level where there can only be 1 POI translated to pogo
-
-S2Grid.settings = {
-      grids: [
-        {
-            level: gymCellLevel,
-            width: 5,
-            color: '#004D40',
-            opacity: 0.5
-        },
-        {
-            level: poiCellLevel,
-            width: 2,
-            color: '#388E3C',
-            opacity: 0.5
-        }
-    ],
-};
 
 S2Grid.isCellOnScreen = function(mapBounds, cell) {
     const corners = cell.getCornerLatLngs();
     const cellBounds = new google.maps.LatLngBounds(corners[0], corners[1]).extend(corners[2]).extend(corners[3]);
     return cellBounds.intersects(mapBounds);
-}
-
-/**
- * Refresh the S2 grid over the map
- */
-S2Grid.updateMapGrid = function() {
-    if (!S2Grid.enabled) return;
-
-    const zoom = map.getZoom();
-
-    // draw the cell grid
-    if (zoom > 4) {
-        S2Grid.drawCellGrid(zoom);
-    } else {
-        S2Grid.clearCellGrid();
-    }
 }
 
 S2Grid.getLatLngPoint = function(data) {
@@ -61,9 +28,7 @@ S2Grid.clearCellGrid = function() {
     S2Grid.polys = [];
 }
 
-S2Grid.drawCellGrid = function(zoom) {
-    S2Grid.clearCellGrid();
-
+S2Grid.drawCellGrid = function(gridLevel, color, width, opacity) {
     const bounds = map.getBounds();
     const seenCells = {};
     const drawCellAndNeighbors = function (cell, color, width, opacity) {
@@ -86,26 +51,18 @@ S2Grid.drawCellGrid = function(zoom) {
         }
     };
 
-    for (let i = S2Grid.settings.grids.length - 1; i >= 0; --i) {
-        const grid = S2Grid.settings.grids[i];
-        const gridLevel = grid.level;
-        if (gridLevel >= 6 && gridLevel < (zoom + 2)) {
-            const cell = S2.S2Cell.FromLatLng(S2Grid.getLatLngPoint(map.getCenter()), gridLevel);
-            drawCellAndNeighbors(cell, grid.color, grid.width, grid.opacity);
-        }
-    }
+    const cell = S2.S2Cell.FromLatLng(S2Grid.getLatLngPoint(map.getCenter()), gridLevel);
+    drawCellAndNeighbors(cell, color, width, opacity);
 }
 
 S2Grid.drawCell = function(cell, color, weight, opacity) {
-    // corner points
     const corners = cell.getCornerLatLngs();
 
     const fillOpacity = S2PokeGrid.isCellMissingGyms(cell) ? 0.2 : 0;
 
-    // the level 6 cells have noticible errors with non-geodesic lines - and the larger level 4 cells are worse
     var poly = new google.maps.Polygon({
         path: [corners[0], corners[1], corners[2], corners[3], corners[0]],
-        geodesic: false,
+        geodesic: true,
         strokeColor: color,
         strokeOpacity: opacity,
         strokeWeight: weight,
@@ -119,11 +76,31 @@ S2Grid.drawCell = function(cell, color, weight, opacity) {
     return poly;
 }
 
+S2Grid.drawCellGridByZoom = function(zoom) {
+    if (zoom > 12) {
+        S2Grid.drawCellGrid(gymCellLevel, '#004D40', 5, 0.5);
+        if (zoom > 15) {
+            S2Grid.drawCellGrid(poiCellLevel, '#388E3C', 2, 0.5);
+        }
+    } else {
+        const gridLevel = Math.ceil(zoom);
+        S2Grid.drawCellGrid(gridLevel, 'gray', 1, 0.5);
+    }
+}
+
+S2Grid.updateMapGrid = function() {
+    if (!S2Grid.enabled) return;
+
+    const zoom = map.getZoom();
+
+    S2Grid.clearCellGrid();
+    S2Grid.drawCellGridByZoom(zoom);
+}
+
 S2Grid.setupGrid = function(map) {
     map.addListener('center_changed', S2Grid.updateMapGrid);
     map.addListener('zoom_changed', S2Grid.updateMapGrid);
     map.addListener('bounds_changed', S2Grid.updateMapGrid);
-    S2Grid.enabled = false;
 };
 
 S2Grid.showGrid = function() {
