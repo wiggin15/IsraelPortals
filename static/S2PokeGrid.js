@@ -24,7 +24,7 @@ S2PokeGrid.register = function(lat, lng, isGym) {
 }
 
 S2PokeGrid.isCellMissingGyms = function(cell) {
-    if (cell.level == 14) {
+    if (cell.level == gymCellLevel) {
         cellCenter = cell.getLatLng()
         cellPortals = S2PokeGrid.cellPortals[cell.toString()];
         if (cellPortals !== undefined) {
@@ -38,15 +38,15 @@ S2PokeGrid.isCellMissingGyms = function(cell) {
 
 S2PokeGrid.gymsByPoi = function(numPoi) {
     if (numPoi >= 20) return 3;
-    else if (numPoi >= 6) return 2;
-    else if (numPoi >= 2) return 1;
+    if (numPoi >= 6) return 2;
+    if (numPoi >= 2) return 1;
     return 0;
 }
 
 S2PokeGrid.estimateGyms = function() {
     let res = 0;
     Object.keys(S2PokeGrid.cellPortals).forEach(function(v) {
-        if (!v.endsWith("14")) return;
+        if (!v.endsWith(gymCellLevel)) return;
         numPoi = S2PokeGrid.cellPortals[v]['stops'];
         res += S2PokeGrid.gymsByPoi(numPoi);
     });
