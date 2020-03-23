@@ -1,4 +1,9 @@
 var map;
+var sidebar_divs = [];
+var portal_markers = [];
+var portal_names = [];
+var markers_visible = true;
+
 function initMap() {
     let isMobile = window.matchMedia("only screen and (max-width: 760px)").matches;
 
@@ -25,6 +30,11 @@ function initMap() {
       searchBox.setBounds(map.getBounds());
     });
 
+    map.addListener('zoom_changed', function() {
+      if (map.zoom <= 5 && markers_visible) hideMarkers();
+      if (map.zoom > 5 && !markers_visible) showMarkers();
+    });
+
     searchBox.addListener('places_changed', function() {
         var places = searchBox.getPlaces();
         if (places.length == 0) {
@@ -46,9 +56,6 @@ function initMap() {
     });
 
     $.getJSON("gyms.json", function(data) { gyms = data; });
-    var sidebar_divs = [];
-    var portal_markers = [];
-    var portal_names = [];
     var urlParams = new URLSearchParams(window.location.search);
     $.getJSON("portals.json", function(data) {
         $.each(data, function(i, portal) {
@@ -93,7 +100,7 @@ function initMap() {
                 $("<b/>").text(name).on('click', callback).appendTo(sidebar_div);
                 sidebar_divs.push([name, sidebar_div]);
             }
-            portal_markers.push([guid, name, callback]);
+            portal_markers.push({guid: guid, name: name, callback: callback, marker: marker});
             portal_names.push($.trim(name));
             if (guid == document.location.hash.substring(1)) {
                 callback();
@@ -115,21 +122,21 @@ function initMap() {
         var goto_portal = function() {
             var results = [];
             portal_markers.forEach(function(portal_marker) {
-                if ($.trim(portal_marker[1].toLowerCase()) == $.trim($(portal_input).val().toLowerCase())) {
+                if ($.trim(portal_marker['name'].toLowerCase()) == $.trim($(portal_input).val().toLowerCase())) {
                     results.push(portal_marker);
                 }
             });
             if (results.length == 0) return;
             else if (results.length == 1)
-                results[0][2]();
+                results[0]['callback']();
             else {
                 var dialog_div = $("<div/>");
                 results.forEach(function(portal_marker) {
                     var link = $("<div/>").addClass('portal-option');
-                    link.text(portal_marker[1]);
-                    $("<span/>").text(portal_marker[0]).addClass('portal-option-guid').appendTo(link);
+                    link.text(portal_marker['name']);
+                    $("<span/>").text(portal_marker['guid']).addClass('portal-option-guid').appendTo(link);
                     link.on('click', function() {
-                        portal_marker[2]();
+                        portal_marker['callback']();
                         dialog_div.dialog("close");
                     });
                     link.appendTo(dialog_div);
@@ -168,6 +175,20 @@ function initMap() {
             S2Grid.hideGrid();
         }
     });
+}
+
+function hideMarkers() {
+    portal_markers.forEach(function(marker) {
+        marker['marker'].setMap(null);
+    });
+    markers_visible = false;
+}
+
+function showMarkers() {
+    portal_markers.forEach(function(marker) {
+        marker['marker'].setMap(map);
+    });
+    markers_visible = true;
 }
 
 function openNav() {
