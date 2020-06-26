@@ -133,3 +133,19 @@ input[type=textbox] {
     color: #888;
     cursor: pointer;
 }
+
+.portal-img {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+}
+
+.portal-img img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+}
+
+.portal-img + div {
+    display: inline-block;
+}

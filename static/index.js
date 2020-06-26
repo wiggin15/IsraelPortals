@@ -75,15 +75,15 @@ function initMap() {
                 icon: is_gym ? "static/gym.png" : "static/neutral.png"
             });
             var content = "<span>";
-            content += "<b>" + name + "</b> ";
             if (img !== null)
-                content += "<a href=\"" + img + "\" target=\"_blank\"><img src=\"static/pic.svg\" width=12 height=12></a>";
+                content += "<a class=\"portal-img\" href=\"" + img + "\" target=\"_blank\"><img src=\"" + img + "\"></a> ";
+            content += "<div><b>" + name + "</b> ";
             if (isMobile)
                 content += "<br>" + guid;
             else
                 content += "<br><input type=\"textbox\" class=\"guid\" style=\"width: 250px\" value=\"" + guid + "\" readonly=\"readonly\" onclick=\"select_guid(event)\"> <i class=\"glyphicon glyphicon-copy\" onclick=\"copy_guid(event)\"></i>";
-            content += "<br><a href=\"geo:" + lat + "," + lng + "\">" + lat + ", " + lng + "</a>";
-            content += "</span>";
+            content += "<br><a href=\"http://maps.google.com/maps?q=" + lat + "," + lng + "\" target=\"_blank\">" + lat + ", " + lng + "</a>";
+            content += "</div></span>";
 
             var callback = (function(marker, content, infowindow) {
                   return function() {
