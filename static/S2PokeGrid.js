@@ -52,3 +52,17 @@ S2PokeGrid.estimateGyms = function() {
     });
     return res;
 }
+
+S2PokeGrid.gymsOnScreen = function() {
+    let estimated = 0;
+    let registered = 0;
+    Object.keys(S2Grid.seenCells).forEach(function(v) {
+        if (!v.endsWith(gymCellLevel)) return;
+        cellPortals = S2PokeGrid.cellPortals[v];
+        if (cellPortals === undefined) return;
+        numPoi = S2PokeGrid.cellPortals[v]['stops'];
+        estimated += S2PokeGrid.gymsByPoi(numPoi);
+        registered += S2PokeGrid.cellPortals[v]['gyms'];
+    });
+    console.log("Missing %d gyms (estimated %d, registered %d)", estimated - registered, estimated, registered);
+}

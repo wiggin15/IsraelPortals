@@ -2,6 +2,7 @@ const S2Grid = {};
 
 S2Grid.polys = [];
 S2Grid.enabled = false;
+S2Grid.seenCells = {};
 
 const gymCellLevel = 14; // the cell level which is considered when counting POIs to determine # of gyms
 const poiCellLevel = 17; // the cell level where there can only be 1 POI translated to pogo
@@ -30,13 +31,13 @@ S2Grid.clearCellGrid = function() {
 
 S2Grid.drawCellGrid = function(gridLevel, color, width, opacity) {
     const bounds = map.getBounds();
-    const seenCells = {};
+    S2Grid.seenCells = {};
     const drawCellAndNeighbors = function (cell, color, width, opacity) {
         const cellStr = cell.toString();
 
-        if (!seenCells[cellStr]) {
+        if (!S2Grid.seenCells[cellStr]) {
             // cell not visited - flag it as visited now
-            seenCells[cellStr] = true;
+            S2Grid.seenCells[cellStr] = true;
 
             if (S2Grid.isCellOnScreen(bounds, cell)) {
                 // on screen - draw it
@@ -68,10 +69,9 @@ S2Grid.drawCell = function(cell, color, weight, opacity) {
         strokeWeight: weight,
         clickable: false,
         fillColor: '#FF0000',
-        fillOpacity: fillOpacity
+        fillOpacity: fillOpacity,
+        map: map
     });
-
-    poly.setMap(map);
 
     return poly;
 }
