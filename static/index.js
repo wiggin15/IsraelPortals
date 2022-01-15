@@ -57,6 +57,7 @@ function initMap() {
 
     $.getJSON("gyms.json", function(data) { gyms = data; });
     var urlParams = new URLSearchParams(window.location.search);
+    var lastUpdate = "";
     $.getJSON("portals.json", function(data) {
         $.each(data, function(i, portal) {
             guid = portal[0];
@@ -65,6 +66,7 @@ function initMap() {
             img = portal[3];
             name = portal[4];
             first_seen = portal[5];
+            if (first_seen > lastUpdate) lastUpdate = first_seen;
             if (urlParams.has("show_only") && first_seen != urlParams.get("show_only"))
                 return;
             is_gym = $.inArray(guid, gyms) != -1;
@@ -111,6 +113,14 @@ function initMap() {
         $("<div/>")
             .addClass("sidebar-portal")
             .text("Loaded " + portal_count + " portals, " + gyms.length + " gyms.")
+            .appendTo($("#sidebar-inner"));
+        $("<div/>")
+            .addClass("sidebar-portal")
+            .text("(estimated " + (S2PokeGrid.estimateGyms() - gyms.length) + " gyms unmarked)")
+            .appendTo($("#sidebar-inner"));
+        $("<div/>")
+            .addClass("sidebar-portal")
+            .text("Last Scanned: " + lastUpdate)
             .appendTo($("#sidebar-inner"));
         $("<div/>").addClass("sidebar-portal").text("Gym list:").appendTo($("#sidebar-inner"))
             .css("font-weight", "bold").css("font-size", "20px");
