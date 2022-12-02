@@ -110,13 +110,16 @@ function initMap() {
 
         });
         var portal_count = portal_names.length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        var anomalies = S2PokeGrid.calculateAnomalies();
         $("<div/>")
             .addClass("sidebar-portal")
             .text("Loaded " + portal_count + " portals, " + gyms.length + " gyms.")
             .appendTo($("#sidebar-inner"));
         $("<div/>")
             .addClass("sidebar-portal")
-            .text("(estimated " + (S2PokeGrid.estimateGyms() - gyms.length) + " gyms unmarked)")
+            .html(`Anomalies: <br>
+                   ${anomalies.tooMany} gyms that shouldn't exist<br>
+                   ${anomalies.tooLittle} gyms missing that should exist`)
             .appendTo($("#sidebar-inner"));
         $("<div/>")
             .addClass("sidebar-portal")

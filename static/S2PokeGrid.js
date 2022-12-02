@@ -43,14 +43,21 @@ S2PokeGrid.gymsByPoi = function(numPoi) {
     return 0;
 }
 
-S2PokeGrid.estimateGyms = function() {
-    let res = 0;
+S2PokeGrid.calculateAnomalies = function() {
+    let tooMany = 0;
+    let tooLittle = 0;
     Object.keys(S2PokeGrid.cellPortals).forEach(function(v) {
         if (!v.endsWith(gymCellLevel)) return;
         numPoi = S2PokeGrid.cellPortals[v]['stops'];
-        res += S2PokeGrid.gymsByPoi(numPoi);
+        expectedGyms = S2PokeGrid.gymsByPoi(numPoi);
+        existingGyms = S2PokeGrid.cellPortals[v]['gyms'];
+        if (expectedGyms > existingGyms) {
+            tooLittle += expectedGyms - existingGyms;
+        } else if (expectedGyms < existingGyms) {
+            tooMany += existingGyms - expectedGyms;
+        }
     });
-    return res;
+    return {tooMany: tooMany, tooLittle: tooLittle};
 }
 
 S2PokeGrid.gymsOnScreen = function() {
