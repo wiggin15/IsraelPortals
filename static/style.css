@@ -5,16 +5,6 @@ html, body {
     padding: 0;
 }
 
-#loader-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: white;
-    z-index: 1000;
-}
-
 #loader {
     position: fixed;
     margin: auto;
@@ -80,16 +70,27 @@ html, body {
     padding: 2px;
 }
 
-#sidebar-s2 {
-    padding-bottom: 15px;
-    font-weight: bold;
+#sidebar-s2 label,
+#sidebar-stops label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+#sidebar-s2 input,
+#sidebar-stops input {
+    position: relative;
+    top: -2px;
+}
+#sidebar-stops {
+    padding-bottom: 10px;
 }
 
-.sidebar-portal {
+
+.sidebar-gym {
     padding-bottom: 20px;
 }
 
-.sidebar-portal b {
+.sidebar-gym b {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -98,18 +99,18 @@ html, body {
     display: none;
 }
 
-.portal-option {
+.gym-option {
     cursor: pointer;
     text-decoration: underline;
     margin-bottom: 2px;
 }
 
-.portal-option-guid {
+.gym-option-guid {
     font-size: 10px;
     margin-left: 10px;
 }
 
-#pac-input, #portal-input {
+#pac-input, #gym-input {
     background-color: #fff;
     font-family: Roboto;
     font-size: 15px;
@@ -134,18 +135,18 @@ input[type=textbox] {
     cursor: pointer;
 }
 
-.portal-img {
+.obj-img {
     display: inline-block;
     vertical-align: top;
     margin-right: 10px;
 }
 
-.portal-img img {
+.obj-img img {
     width: 50px;
     height: 50px;
     border-radius: 50px;
 }
 
-.portal-img + div {
+.obj-img + div {
     display: inline-block;
 }
